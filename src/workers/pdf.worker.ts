@@ -284,8 +284,8 @@ async function run(job: PdfJob) {
   const doc = await PDFDocument.create();
   doc.registerFontkit(fontkit);
   doc.setTitle(job.title);
-  doc.setCreator("版心 · 本地排版");
-  doc.setProducer("版心 · 本地排版（pdf-lib）");
+  doc.setCreator("画芯 · 本地排版");
+  doc.setProducer("画芯 · 本地排版（pdf-lib）");
   const total = job.fonts.length + job.images.length + job.pages.length;
   let done = 0;
   const fonts = new Map<string, PDFFont>();

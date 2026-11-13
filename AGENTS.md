@@ -1,6 +1,8 @@
-# Banxin Studio / 版心
+# Huaxin / 画芯
 
 React + Vite + Tailwind CSS project exported from Figma Make and maintained locally.
+
+The project is co-created by Yunxi (芸溪), Claude and Codex. Original source is MIT licensed; preserve third-party licenses and attribution. Product name: 画芯 / Huaxin. Existing `banxin-*` storage, cache, clipboard and project-format identifiers are retained for compatibility with local drafts and `.bxproj` files.
 
 ## Development Server
 

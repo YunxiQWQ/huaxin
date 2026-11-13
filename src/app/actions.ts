@@ -123,7 +123,7 @@ export async function downloadProjectFile(): Promise<boolean> {
   try {
     const { blob, missing } = await buildProjectPackage(doc);
     const ok = await saveBlob(blob, `${safeFileName(doc.name)}${PROJECT_EXT}`, {
-      description: "版心工程文件",
+      description: "画芯工程文件",
       accept: { "application/zip": [PROJECT_EXT] },
     });
     if (!ok) return false;

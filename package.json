@@ -1,5 +1,16 @@
 {
-  "name": "banxin-studio",
+  "name": "huaxin",
+  "description": "画芯 · 本地优先的中文报刊与电子画册排版工具",
+  "license": "MIT",
+  "author": "Yunxi (芸溪)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunxiQWQ/huaxin.git"
+  },
+  "homepage": "https://github.com/YunxiQWQ/huaxin#readme",
+  "bugs": {
+    "url": "https://github.com/YunxiQWQ/huaxin/issues"
+  },
   "private": true,
   "version": "1.0.0",
   "type": "module",

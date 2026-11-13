@@ -66,7 +66,7 @@ export async function buildProjectPackage(
   const manifest: ProjectManifest = {
     format: PROJECT_FORMAT,
     formatVersion: FORMAT_VERSION,
-    app: "版心 · 本地排版",
+    app: "画芯 · 本地排版",
     exportedAt: new Date().toISOString(),
     name: doc.name,
     pageCount: doc.pages.length,
@@ -87,7 +87,7 @@ export async function buildProjectPackage(
   files["manifest.json"] = strToU8(JSON.stringify(manifest, null, 2));
   files["document.json"] = strToU8(JSON.stringify(doc));
   files["README.txt"] = strToU8(
-    `这是“版心 · 本地排版”的工程文件。\n请在版心中选择“导入工程”继续编辑。\n格式版本：${FORMAT_VERSION}\n导出时间：${manifest.exportedAt}\n内置字体：${FONT_FAMILIES.map((f) => f.name).join("、")}（SIL OFL 1.1，随程序站点提供，工程内仅记录名称）\n`,
+    `这是“画芯 · 本地排版”的工程文件。\n请在画芯中选择“导入工程”继续编辑。\n格式版本：${FORMAT_VERSION}\n导出时间：${manifest.exportedAt}\n内置字体：${FONT_FAMILIES.map((f) => f.name).join("、")}（SIL OFL 1.1，随程序站点提供，工程内仅记录名称）\n`,
   );
   onProgress?.(ids.length, ids.length);
   const data = await new Promise<Uint8Array>((res, rej) =>
@@ -132,7 +132,7 @@ export async function readProjectPackage(
   if (file.size > MAX_TOTAL) throw new ValidationError("文件过大，无法导入");
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (!(bytes[0] === 0x50 && bytes[1] === 0x4b))
-    throw new ValidationError("这不是版心工程文件（文件格式不正确或已损坏）");
+    throw new ValidationError("这不是画芯工程文件（文件格式不正确或已损坏）");
   onProgress?.("正在解压工程包…");
   let files: Unzipped;
   try {
@@ -143,7 +143,7 @@ export async function readProjectPackage(
   }
   if (!files["manifest.json"] || !files["document.json"])
     throw new ValidationError(
-      "工程包缺少必要内容（manifest.json / document.json），可能不是版心工程或已损坏",
+      "工程包缺少必要内容（manifest.json / document.json），可能不是画芯工程或已损坏",
     );
   let manifest: Partial<ProjectManifest>;
   let rawDoc: unknown;
@@ -153,7 +153,7 @@ export async function readProjectPackage(
   } catch {
     throw new ValidationError("工程数据无法解析，文件可能已损坏");
   }
-  if (manifest.format !== PROJECT_FORMAT) throw new ValidationError("这不是版心工程文件");
+  if (manifest.format !== PROJECT_FORMAT) throw new ValidationError("这不是画芯工程文件");
   if (typeof manifest.formatVersion !== "number") throw new ValidationError("工程缺少格式版本信息");
   if (manifest.formatVersion > FORMAT_VERSION)
     throw new ValidationError(

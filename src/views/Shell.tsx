@@ -13,7 +13,7 @@ export function BrandMark({ size = 28 }: { size?: number }) {
         fontFamily: '"BX Noto Serif SC", "Songti SC", SimSun, "BX UI Sans", serif',
       }}
     >
-      版
+      画
     </div>
   );
 }
@@ -37,7 +37,7 @@ export function AppHeader({ right }: { right?: ReactNode }) {
       <div className="flex items-center gap-2.5">
         <BrandMark />
         <div className="leading-tight">
-          <div className="text-[15px] font-semibold tracking-wide">版心</div>
+          <div className="text-[15px] font-semibold tracking-wide">画芯</div>
           <div className="text-[10.5px] text-mute">本地优先的报刊画册排版</div>
         </div>
       </div>

@@ -72,7 +72,7 @@ export function Workbench() {
     if (!loaded) return;
     const { blob } = await buildProjectPackage(loaded.doc);
     await saveBlob(blob, `${safeFileName(p.name)}${PROJECT_EXT}`, {
-      description: "版心工程文件",
+      description: "画芯工程文件",
       accept: { "application/zip": [PROJECT_EXT] },
     });
   };

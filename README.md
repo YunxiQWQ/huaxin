@@ -1,8 +1,24 @@
-# 版心 · 本地优先的报刊画册排版
+# 画芯 Huaxin · 本地优先的报刊画册排版
+
+[GitHub](https://github.com/YunxiQWQ/huaxin) · [MIT License](LICENSE)
 
 在浏览器中制作报纸、校刊、电子画册和图文手册的多页排版工具。编辑、排版、预览、自动保存和导出全部在用户浏览器内完成；网站只是静态站点，提供程序、模板和字体。
 
 完整流程：选择模板或空白新建 → 导入本机图片 → 多页排版 → 本机自动保存（IndexedDB）→ 本地预览 → 导出 PDF / PNG / JPEG 或工程文件（.bxproj）。
+
+## 共创与许可
+
+由 **芸溪、Claude 和 Codex（OpenAI）** 共同创作。
+
+| 共创者 | 参与工作 |
+|---|---|
+| 芸溪（[@YunxiQWQ](https://github.com/YunxiQWQ)） | 项目发起、产品方向、需求决策、设计审阅与验收 |
+| Claude（Anthropic） | 界面设计与初版功能实现 |
+| Codex（OpenAI，D 老师） | 需求梳理、工程维护、本机字体支持与自动化验证 |
+
+项目源码采用 [MIT License](LICENSE)。依赖、字体和模板照片保留各自的许可证与署名，详见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+
+欢迎提交 Issue 和 Pull Request；提交前请运行类型检查、构建以及与改动相关的验收。作品、图片和字体等个人文件保留在本机。
 
 ## 启动与构建
 

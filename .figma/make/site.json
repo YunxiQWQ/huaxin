@@ -7,6 +7,9 @@
     "addBypassLinks": false,
     "ignoreReducedMotion": false
   },
-  "title": "版心 · 本地报刊画册排版",
+  "title": "画芯 · 本地报刊画册排版",
+  "icons": {
+    "icon": "/favicon.svg"
+  },
   "language": "zh-CN"
 }

@@ -48,7 +48,7 @@
 - 下载测试主动选择浏览器下载路径，没有验证系统原生“另存为”对话框中的手工操作。
 - 中文组合输入使用 CDP 模拟，没有覆盖所有物理输入法与所有桌面浏览器。
 - 沿用 README 已列出的产品限制，包括文本框级样式、常用字体子集、RGB PDF 及尚未实现的跨框续排。
-- 主源码的发布许可尚待仓库所有者确定。第三方组件和素材许可见 `THIRD_PARTY_NOTICES.md`。
+- 主源码许可已于 2026-11-14 由仓库所有者指定为 MIT，见根目录 `LICENSE`。第三方组件和素材许可见 `THIRD_PARTY_NOTICES.md`。
 - 本轮准备本地 Git 仓库，没有创建 GitHub 仓库、配置远程或推送。
 
 ## 霞鹜文楷与本机字体（2026-11-14）
@@ -61,3 +61,11 @@
 - `pnpm e2e`、`pnpm e2e:templates` 和最终生产态 `pnpm e2e:offline` 通过：五套模板无排版问题、PDF 尺寸正确；断网刷新、修改、自动保存、再次刷新、中文 PDF 和工程下载正常。字体专项与正常流程无页面错误、无站外或上传请求；异常验收仍包含主动注入的预期错误。
 - 类型检查、生产构建、113 个文本文件的敏感信息扫描及 `git diff --check` 通过。日志入口为 `artifacts/e2e-fonts.log`、`artifacts/font-cache-upgrade.log`、`artifacts/e2e-after-fonts.log`、`artifacts/e2e-templates-after-fonts.log`、`artifacts/e2e-offline-after-fonts.log`。
 - 本机字体实际读取与导出在桌面 Edge 中验证；测试自动授予浏览器权限，首次由用户手动点击浏览器权限弹窗仍需实际操作。Firefox / Safari 使用网站字体；没有实现手动导入字体文件。
+
+## 画芯命名与 MIT 开源准备（2026-11-14）
+
+- 项目名称、界面品牌、浏览器标题与图标、工程文件说明和 PDF 元数据更新为“画芯 / Huaxin”，包名为 `huaxin`。
+- 按项目所有者要求新增 MIT `LICENSE`，README 列出芸溪、Claude（Anthropic）、Codex（OpenAI）三方共创署名与参与工作。第三方字体、照片和依赖继续保留各自许可。
+- 类型检查、生产构建、114 个当前文本文件的敏感信息扫描与 diff 检查通过；待公开的既有 Git 历史中 131 个文本对象扫描未发现敏感信息。
+- Edge 验证了新名称、标题与 favicon，以及由旧“版心”导出的五页工程导入、PDF 与工程重新导出；新 PDF Creator / Producer 和工程应用名称正确，原工程格式与版本号兼容。该流程无页面错误、站外或上传请求。
+- 本轮日志为 `artifacts/build-huaxin.log`、`artifacts/huaxin-smoke.log`、`artifacts/public-history-check.log`。历史版本的个人作品与验收浏览器数据均未纳入 Git。
