@@ -14,7 +14,7 @@ export async function exportImages(
   opts: { format: "png" | "jpeg"; dpi: number; quality: number },
   onProgress: (p: Progress) => void,
 ): Promise<{ blob: Blob; ext: string; multi: boolean }> {
-  await ensureFontsForDoc(doc);
+  await ensureFontsForDoc(doc, true);
   await document.fonts.ready;
   let scale = opts.dpi / 25.4;
   const area = doc.pageSize.width * doc.pageSize.height * scale * scale;

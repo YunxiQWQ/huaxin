@@ -57,7 +57,8 @@ export function sanitizeStyle(v: unknown): TextStyle {
   const w = num(o.fontWeight, 400);
   return {
     fontFamily:
-      typeof o.fontFamily === "string" && /^[\w\- ]{1,60}$/.test(o.fontFamily)
+      typeof o.fontFamily === "string" &&
+      /^(?:[\w\- ]{1,60}|local:[A-Za-z0-9_-]{1,512})$/.test(o.fontFamily)
         ? o.fontFamily
         : BASE_STYLE.fontFamily,
     fontSize: num(o.fontSize, BASE_STYLE.fontSize, 2, 600),
@@ -209,13 +210,11 @@ export function sanitizeDoc(v: unknown): Doc {
   const ps = isObj(v.pageSize) ? v.pageSize : {};
   const m = isObj(v.margins) ? v.margins : {};
   const presetsRaw = Array.isArray(v.textStyles) ? v.textStyles.slice(0, 200) : [];
-  const textStyles: TextStylePreset[] = presetsRaw
-    .filter(isObj)
-    .map((p) => ({
-      id: id(p.id, "st"),
-      name: str(p.name, "样式", 40),
-      style: sanitizeStyle(p.style),
-    }));
+  const textStyles: TextStylePreset[] = presetsRaw.filter(isObj).map((p) => ({
+    id: id(p.id, "st"),
+    name: str(p.name, "样式", 40),
+    style: sanitizeStyle(p.style),
+  }));
   const pages = v.pages.map(sanitizePage);
   const seen = new Set<string>();
   for (const p of pages) {

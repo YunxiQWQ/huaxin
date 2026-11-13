@@ -3,7 +3,7 @@ import type { Doc, ImageElement } from "../model/types";
 import { FORMAT_VERSION } from "../model/types";
 import { assetBytes, importImageBytes, sha256, sniffImage } from "../storage/assets";
 import { sanitizeDoc, ValidationError } from "./validate";
-import { FONT_FAMILIES, getFamily } from "../fonts/registry";
+import { FONT_FAMILIES, fontName, getFamily, isLocalFont } from "../fonts/registry";
 import { uid } from "../model/units";
 
 export const PROJECT_EXT = ".bxproj";
@@ -62,6 +62,7 @@ export async function buildProjectPackage(
   const usedFonts = new Set<string>();
   for (const p of doc.pages)
     for (const e of p.elements) if (e.type === "text") usedFonts.add(e.style.fontFamily);
+  for (const s of doc.textStyles) usedFonts.add(s.style.fontFamily);
   const manifest: ProjectManifest = {
     format: PROJECT_FORMAT,
     formatVersion: FORMAT_VERSION,
@@ -74,9 +75,13 @@ export async function buildProjectPackage(
     // 内置字体由程序站点提供，工程只记录名称；不打包字体文件。
     fonts: [...usedFonts].map((id) => ({
       id,
-      name: getFamily(id)?.name ?? id,
+      name: fontName(id),
       embedded: false,
-      note: getFamily(id) ? "程序内置开源字体，按名称引用" : "程序中不存在此字体",
+      note: isLocalFont(id)
+        ? "本机字体，按名称引用；打开时需安装同名字体并允许字体访问，不包含字体文件"
+        : getFamily(id)
+          ? "程序内置开源字体，按名称引用"
+          : "程序中不存在此字体",
     })),
   };
   files["manifest.json"] = strToU8(JSON.stringify(manifest, null, 2));
@@ -211,7 +216,7 @@ export async function readProjectPackage(
       if (e.type === "text" && !getFamily(e.style.fontFamily)) missingFonts.add(e.style.fontFamily);
   if (missingFonts.size)
     warnings.push(
-      `工程使用的字体在本程序中不可用：${[...missingFonts].join("、")}，将以思源宋体显示`,
+      `工程字体暂不可用：${[...missingFonts].map(fontName).join("、")}，暂以思源宋体显示。本机字体请安装同名字体并启用字体访问。`,
     );
   // imported projects always become a new, independent work
   const now = Date.now();

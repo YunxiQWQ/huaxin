@@ -1,7 +1,7 @@
 import type { Doc } from "../model/types";
 import { layoutOf } from "../layout/textLayout";
-import { faceStatus, loadCoverage, uncoveredChars } from "../fonts/loader";
-import { getFamily, resolveFace } from "../fonts/registry";
+import { ensureFontsForDoc, faceStatus, loadCoverage, uncoveredChars } from "../fonts/loader";
+import { fontName, getFamily, isLocalFont, resolveFace } from "../fonts/registry";
 import { hasAssets, isTemplateAsset } from "../storage/assets";
 
 export interface Issue {
@@ -43,7 +43,7 @@ export function overflowIssues(doc: Doc, pages?: number[]): Issue[] {
 }
 
 export async function checkDoc(doc: Doc, pages?: number[]): Promise<Issue[]> {
-  await loadCoverage();
+  await Promise.all([loadCoverage(), ensureFontsForDoc(doc)]);
   const idx = pages ?? doc.pages.map((_, i) => i);
   const out: Issue[] = overflowIssues(doc, idx);
   const assetIds = new Set<string>();
@@ -81,7 +81,7 @@ export async function checkDoc(doc: Doc, pages?: number[]): Promise<Issue[]> {
             kind: "missing-font",
             pageIndex: i,
             elementId: el.id,
-            message: `字体“${el.style.fontFamily}”不可用，已使用思源宋体代替`,
+            message: `字体“${fontName(el.style.fontFamily)}”不可用，暂以思源宋体代替${isLocalFont(el.style.fontFamily) ? "；请先启用本机字体，或在本机安装同名字体" : ""}`,
           });
         }
         const { face } = resolveFace(el.style.fontFamily, el.style.fontWeight);
@@ -91,7 +91,7 @@ export async function checkDoc(doc: Doc, pages?: number[]): Promise<Issue[]> {
             kind: "font-load",
             pageIndex: i,
             elementId: el.id,
-            message: `字体文件加载失败（${getFamily(el.style.fontFamily)?.name ?? face.file}），请检查网络后重试`,
+            message: `字体文件加载失败（${fontName(el.style.fontFamily)}），${isLocalFont(face.file) ? "请刷新本机字体或选择其他字体" : "请检查网络后重试"}`,
           });
         const miss = uncoveredChars(el.style.fontFamily, el.style.fontWeight, el.text);
         if (miss && miss.length)

@@ -14,6 +14,7 @@ export interface FontFamilyDef {
   faces: FontFace[];
   fallback: "serif" | "sans-serif";
   license: string;
+  source?: "local";
 }
 
 export const FONT_FAMILIES: FontFamilyDef[] = [
@@ -72,9 +73,57 @@ export const FONT_FAMILIES: FontFamilyDef[] = [
 ];
 
 export const DEFAULT_FONT = "serif";
+// Versioned asset paths also work with older installed service workers.
+export const FONT_MANIFEST = "manifest-v1.530.json";
+
+let localFamilies: FontFamilyDef[] = [];
+
+export function getLocalFamilies() {
+  return localFamilies;
+}
+
+export function registerLocalFamilies(families: FontFamilyDef[]) {
+  localFamilies = families;
+}
+
+export function isLocalFont(id: string) {
+  return id.startsWith("local:");
+}
+
+/** Stable, reversible IDs; neither font bytes nor the full installed-font list enter a draft. */
+export function localFontId(name: string) {
+  const bytes = new TextEncoder().encode(name);
+  return (
+    "local:" +
+    btoa(Array.from(bytes, (n) => String.fromCharCode(n)).join(""))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "")
+  );
+}
+
+export function fontName(id: string): string {
+  const found = getFamily(id);
+  if (found) return found.name;
+  if (isLocalFont(id)) {
+    try {
+      const bytes = Uint8Array.from(atob(id.slice(6).replace(/-/g, "+").replace(/_/g, "/")), (ch) =>
+        ch.charCodeAt(0),
+      );
+      return new TextDecoder().decode(bytes);
+    } catch {
+      /* malformed imported reference */
+    }
+  }
+  return id;
+}
 
 export function getFamily(id: string): FontFamilyDef | undefined {
-  return FONT_FAMILIES.find((f) => f.id === id);
+  return FONT_FAMILIES.find((f) => f.id === id) ?? localFamilies.find((f) => f.id === id);
+}
+
+export function familyForFace(file: string) {
+  return [...FONT_FAMILIES, ...localFamilies].find((f) => f.faces.some((x) => x.file === file));
 }
 
 /** Resolve the face actually used for a requested weight; `synthBold` when the family lacks a bold face. */
@@ -92,7 +141,8 @@ export function resolveFace(
 }
 
 export function fontUrl(file: string) {
-  return `${import.meta.env.BASE_URL}fonts/${file}.ttf`;
+  const name = file === "lxgw-wenkai-400" ? "lxgw-wenkai-v1.530-400" : file;
+  return `${import.meta.env.BASE_URL}fonts/${name}.ttf`;
 }
 
 /** CSS font-family stack; the face weight is chosen through font-weight. */

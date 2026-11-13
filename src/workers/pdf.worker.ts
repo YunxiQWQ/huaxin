@@ -38,11 +38,12 @@ import { subsetFont } from "./hbSubset";
 import type { DLItem, PageDL } from "../render/displayList";
 import { ITALIC_SKEW, SYNTH_BOLD, dashArray, strokeInsets } from "../render/primitives";
 import type { Stroke } from "../model/types";
+import { embeddingFlags } from "../fonts/embedding";
 
 export interface PdfJob {
   title: string;
   pages: PageDL[];
-  fonts: { file: string; url: string }[];
+  fonts: ({ file: string; url: string } | { file: string; bytes: ArrayBuffer; name: string })[];
   images: { id: string; bytes: ArrayBuffer; kind: "png" | "jpg" }[];
 }
 
@@ -292,9 +293,12 @@ async function run(job: PdfJob) {
     post({ type: "progress", stage: "嵌入字体", done, total });
     let bytes: ArrayBuffer;
     try {
-      const r = await fetch(f.url);
-      if (!r.ok) throw new Error(String(r.status));
-      bytes = await r.arrayBuffer();
+      if ("bytes" in f) bytes = f.bytes;
+      else {
+        const r = await fetch(f.url);
+        if (!r.ok) throw new Error(String(r.status));
+        bytes = await r.arrayBuffer();
+      }
     } catch {
       throw new Error(`无法读取字体文件（${f.file}）。请联网后在编辑器中加载一次该字体再导出。`);
     }
@@ -303,7 +307,12 @@ async function run(job: PdfJob) {
     for (const p of job.pages)
       for (const g of p.groups)
         for (const it of g.items) if (it.t === "text" && it.face === f.file) chars += it.text;
-    const sub = await subsetFont(bytes, chars);
+    const flags = "bytes" in f ? embeddingFlags(bytes) : 0;
+    if ((flags & 0x000e) === 0x0002 || flags & 0x0200)
+      throw new Error(
+        `本机字体“${"name" in f ? f.name : f.file}”设置了嵌入限制，无法用于 PDF。请换用网站字体或其他允许嵌入的字体。`,
+      );
+    const sub = flags & 0x0100 ? new Uint8Array(bytes) : await subsetFont(bytes, chars);
     fonts.set(
       f.file,
       await doc.embedFont(sub, {

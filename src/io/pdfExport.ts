@@ -1,6 +1,7 @@
 import type { Doc } from "../model/types";
 import { pageDisplayList } from "../render/displayList";
-import { fontUrl } from "../fonts/registry";
+import { fontName, fontUrl, isLocalFont } from "../fonts/registry";
+import { localFontBytes } from "../fonts/local";
 import { ensureFontsForDoc } from "../fonts/loader";
 import { assetBytes } from "../storage/assets";
 import type { PdfJob, PdfMsg } from "../workers/pdf.worker";
@@ -25,7 +26,7 @@ export async function exportPdf(
   onProgress: (p: Progress) => void,
 ): Promise<{ blob: Blob; warnings: string[] }> {
   onProgress({ stage: "准备字体与排版", done: 0, total: 1 });
-  await ensureFontsForDoc(doc);
+  await ensureFontsForDoc(doc, true);
   await document.fonts.ready;
   const pages = pageIdx.map((i) => pageDisplayList(doc, doc.pages[i]));
   const faces = new Set<string>();
@@ -38,6 +39,15 @@ export async function exportPdf(
       }
   const images: PdfJob["images"] = [];
   const transfer: ArrayBuffer[] = [];
+  const fonts: PdfJob["fonts"] = [];
+  for (const file of faces) {
+    if (isLocalFont(file)) {
+      // Transfer a copy: keep the tab's bytes usable for later exports.
+      const bytes = (await localFontBytes(file)).bytes.slice(0);
+      fonts.push({ file, bytes, name: fontName(file) });
+      transfer.push(bytes);
+    } else fonts.push({ file, url: new URL(fontUrl(file), location.href).href });
+  }
   let n = 0;
   for (const id of assetIds) {
     onProgress({ stage: "读取图片", done: n++, total: assetIds.size });
@@ -56,7 +66,7 @@ export async function exportPdf(
   const job: PdfJob = {
     title: doc.name,
     pages,
-    fonts: [...faces].map((file) => ({ file, url: new URL(fontUrl(file), location.href).href })),
+    fonts,
     images,
   };
   const worker = new Worker(new URL("../workers/pdf.worker.ts", import.meta.url), {

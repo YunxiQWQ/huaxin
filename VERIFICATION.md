@@ -50,3 +50,14 @@
 - 沿用 README 已列出的产品限制，包括文本框级样式、常用字体子集、RGB PDF 及尚未实现的跨框续排。
 - 主源码的发布许可尚待仓库所有者确定。第三方组件和素材许可见 `THIRD_PARTY_NOTICES.md`。
 - 本轮准备本地 Git 仓库，没有创建 GitHub 仓库、配置远程或推送。
+
+## 霞鹜文楷与本机字体（2026-11-14）
+
+- 霞鹜文楷由 1.501 更新为官方 v1.530 Regular 原版：25,928,940 字节、47,336 字形，内部版本为 `Version 1.530; October 18, 2026`。SHA-256 为 `2d73eea94ad808999d90c0000c239a84a33b09d4bc6ab6c5b8bbf1eda8a7fc8b`，保留对应 OFL 许可证。字体与覆盖清单使用带版本号的文件名；旧工程的 `kai` 引用兼容。
+- 字体列表依次为网站字体、水平分隔线、本机字体。首次通过按钮请求权限；已授权时可恢复，不自动弹出权限提示。仅选择某个字面后读取字体字节，不上传、不存进草稿数据库或工程包。
+- 本机字体接通 Canvas 测量、DOM 编辑与预览、PNG/JPEG 及 PDF 管线；可恢复工程中的稳定名称引用。缺字体或未授权时保留选择、提示处理并临时使用思源宋体。Windows TTC 合集提取所选字面，PDF 检查 OS/2 嵌入限制并支持禁止子集化的整字面嵌入。
+- `pnpm e2e:fonts` 通过：权限被拒、分组顺序和横线、按需读取、粗体、连续两次 PDF、PNG、工程包、刷新恢复、重新授权、嵌入限制和不支持的浏览器分支。Edge 实际枚举 186 个可用字体家族，使用 Microsoft YaHei UI 的 TTC 字面导出 PDF，中文可提取；Poppler 渲染后检查中文字形正常。
+- `pnpm e2e:font-cache` 通过：模拟旧字体与旧覆盖清单缓存，新版资源不误命中；更新 Service Worker 后其他已缓存字体保留，新文楷在线及离线字节校验正确。
+- `pnpm e2e`、`pnpm e2e:templates` 和最终生产态 `pnpm e2e:offline` 通过：五套模板无排版问题、PDF 尺寸正确；断网刷新、修改、自动保存、再次刷新、中文 PDF 和工程下载正常。字体专项与正常流程无页面错误、无站外或上传请求；异常验收仍包含主动注入的预期错误。
+- 类型检查、生产构建、113 个文本文件的敏感信息扫描及 `git diff --check` 通过。日志入口为 `artifacts/e2e-fonts.log`、`artifacts/font-cache-upgrade.log`、`artifacts/e2e-after-fonts.log`、`artifacts/e2e-templates-after-fonts.log`、`artifacts/e2e-offline-after-fonts.log`。
+- 本机字体实际读取与导出在桌面 Edge 中验证；测试自动授予浏览器权限，首次由用户手动点击浏览器权限弹窗仍需实际操作。Firefox / Safari 使用网站字体；没有实现手动导入字体文件。

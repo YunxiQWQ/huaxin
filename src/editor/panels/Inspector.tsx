@@ -73,7 +73,8 @@ import {
   updateTextStyle,
   addPreset,
 } from "../commands";
-import { FONT_FAMILIES, getFamily, resolveFace } from "../../fonts/registry";
+import { fontName, getFamily, isLocalFont, resolveFace } from "../../fonts/registry";
+import { FontPicker } from "./FontPicker";
 import { ensureFace, faceStatus } from "../../fonts/loader";
 import { fitHeight, layoutOf, normalizeText, tidyManuscript } from "../../layout/textLayout";
 import { containCrop, coverCrop, elementTypeName, shapeName } from "../../model/defaults";
@@ -424,7 +425,8 @@ function TextInspector({ el }: { el: TextElement }) {
       <Section title="字体">
         {!fam && (
           <div className="mb-2 rounded-md bg-warn/10 p-2 text-[11.5px] text-warn">
-            字体“{st.fontFamily}”在本程序中不可用，当前以思源宋体显示。
+            字体“{fontName(st.fontFamily)}”当前不可用，暂以思源宋体显示。
+            {isLocalFont(st.fontFamily) && "请在下方启用本机字体；换设备后需安装同名字体。"}
             <button
               className="ml-1 font-medium underline"
               onClick={() => set({ fontFamily: "serif" }, "font")}
@@ -435,20 +437,17 @@ function TextInspector({ el }: { el: TextElement }) {
         )}
         {status === "error" && (
           <div className="mb-2 rounded-md bg-danger/10 p-2 text-[11.5px] text-danger">
-            字体文件加载失败，请检查网络后刷新。离线时仅能使用已缓存的字体。
+            {isLocalFont(face.file)
+              ? "本机字体读取失败，请刷新本机字体或选择其他字体。"
+              : "字体文件加载失败，请检查网络后刷新。离线时仅能使用已缓存的字体。"}
           </div>
         )}
-        <Select
-          className="mb-1.5 w-full"
-          value={fam ? st.fontFamily : "serif"}
+        <FontPicker
+          value={st.fontFamily}
           onChange={(v) => {
             set({ fontFamily: v }, "font");
-            void ensureFace(resolveFace(v, st.fontWeight).face.file);
+            void ensureFace(resolveFace(v, st.fontWeight).face.file, true);
           }}
-          options={FONT_FAMILIES.map((f) => ({
-            value: f.id,
-            label: `${f.name}（${f.category}）${faceStatus(f.faces[0].file) === "loading" ? " 加载中…" : ""}`,
-          }))}
         />
         <Row className="mb-1.5">
           <NumberField
@@ -464,7 +463,7 @@ function TextInspector({ el }: { el: TextElement }) {
             value={String(st.fontWeight) as "400" | "700" | "900"}
             onChange={(v) => {
               set({ fontWeight: Number(v) as FontWeight }, "fw");
-              void ensureFace(resolveFace(st.fontFamily, Number(v)).face.file);
+              void ensureFace(resolveFace(st.fontFamily, Number(v)).face.file, true);
             }}
             options={[...new Set(weights)].map((w) => ({
               value: String(w) as "400" | "700" | "900",
