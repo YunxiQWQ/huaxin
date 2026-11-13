@@ -1,0 +1,12 @@
+{
+  "description": "在浏览器中本地制作报纸、校刊、电子画册和图文手册，支持多页排版、自动保存、预览及 PDF、图片和工程文件导出。",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  },
+  "title": "版心 · 本地报刊画册排版",
+  "language": "zh-CN"
+}

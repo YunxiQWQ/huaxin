@@ -1,0 +1,47 @@
+{
+  "name": "banxin-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.34.3",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit -p .",
+    "fonts": "node scripts/build-fonts.mjs",
+    "e2e": "node tests/e2e/sampleA.mjs && node tests/e2e/sampleB.mjs && node tests/e2e/ime.mjs && node tests/e2e/robustness.mjs",
+    "serve:dist": "node tests/e2e/serve.mjs dist 4173",
+    "e2e:offline": "node tests/e2e/offline.mjs",
+    "e2e:templates": "node tests/e2e/templates.mjs",
+    "check:secrets": "node scripts/check-secrets.mjs"
+  },
+  "dependencies": {
+    "@pdf-lib/fontkit": "^1.1.1",
+    "fflate": "^0.8.3",
+    "harfbuzzjs": "1.6.4",
+    "idb": "^8.0.4",
+    "lucide-react": "^1.72.0",
+    "pdf-lib": "^1.17.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "oxfmt": "^0.76.0",
+    "pdfjs-dist": "^6.5.438",
+    "playwright-core": "^1.65.0",
+    "subset-font": "^2.9.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.5"
+  }
+}
