@@ -1,6 +1,6 @@
 # 画芯 Huaxin · 本地优先的报刊画册排版
 
-[GitHub](https://github.com/YunxiQWQ/huaxin) · [MIT License](LICENSE)
+[在线使用](https://tool.heyunxi.top/huaxin/) · [介绍与使用指南](https://tool.heyunxi.top/huaxin/guide) · [GitHub](https://github.com/YunxiQWQ/huaxin) · [MIT License](LICENSE)
 
 在浏览器中制作报纸、校刊、电子画册和图文手册的多页排版工具。编辑、排版、预览、自动保存和导出全部在用户浏览器内完成；网站只是静态站点，提供程序、模板和字体。
 
@@ -29,12 +29,15 @@ corepack pnpm install --frozen-lockfile
 pnpm dev --host 127.0.0.1   # http://localhost:8443/
 pnpm typecheck      # TypeScript 检查
 pnpm build          # 生成静态站点到 dist/，可部署到任意静态托管
+pnpm build:site     # 为 /huaxin/ 子路径构建（Vercel 部署使用）
 pnpm serve:dist     # 本地以静态方式预览 dist/（含 Service Worker，用于离线测试）
 pnpm check:secrets  # 检查待入库文本中的常见凭据格式
 pnpm fonts <源字体目录> [字面ID]   # 生成站点字体；可只更新一个字面（见下文“字体”）
 ```
 
 部署：把 `dist/` 整个目录放到静态服务器即可，无需后端、数据库或账号。`index.html` 与 `sw.js` 建议设置为不缓存（`Cache-Control: no-cache`），其余带哈希的文件可长期缓存。
+
+线上入口为 `https://tool.heyunxi.top/huaxin/`，介绍页为 `/huaxin/guide`。仓库的 `vercel.json` 使用锁定的 pnpm 构建子路径版本；工具箱站点将 `/huaxin` 与其子路径转发到画芯的独立 Vercel 项目。资源与 Service Worker 均限定在 `/huaxin/`，本机草稿仍只属于当前浏览器和网站地址。
 
 ## 目录结构
 

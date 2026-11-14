@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>画芯 Huaxin｜本地报刊与电子画册排版工具</title>
+  <meta name="description" content="画芯是 MIT 开源的中文报刊与电子画册排版工具。支持多页模板、中文分栏、本机自动备份、本机字体、PDF 和图片导出，无需账号，内容保留在本机。" />
+  <link rel="canonical" href="https://tool.heyunxi.top/huaxin/guide" />
+  <link rel="icon" href="/huaxin/favicon.svg" />
+  <style>
+    :root{color-scheme:light;--paper:#f6f4ef;--ink:#252722;--mute:#65665e;--line:#deded4;--red:#b92424}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,"Microsoft YaHei",sans-serif;line-height:1.85}a{color:inherit;text-underline-offset:4px}header,main,footer{max-width:1140px;margin:auto;padding:28px 40px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}header a{text-decoration:none;font-size:14px}header strong{display:flex;align-items:center;gap:10px}.seal{display:inline-grid;place-items:center;width:30px;height:30px;background:var(--red);border-radius:6px;color:white;font-family:serif;font-size:21px}.hero{padding:72px 0 64px;border-bottom:1px solid var(--line)}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--red)}h1{font-size:clamp(54px,7vw,86px);line-height:1.1;font-family:serif;letter-spacing:.06em;margin:20px 0}h1 small{font-family:system-ui,sans-serif;letter-spacing:.03em;font-size:20px;color:var(--mute);font-weight:400}.lead{font-size:25px;line-height:1.65;max-width:760px;margin:26px 0 14px}.sub{max-width:720px;color:var(--mute);font-size:15px}.actions{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0 0}.button{display:inline-flex;padding:11px 22px;border:1px solid var(--ink);text-decoration:none;font-size:14px}.primary{background:var(--red);border-color:var(--red);color:white}.button:hover{opacity:.8}.section{padding:48px 0;border-bottom:1px solid var(--line)}h2{font-size:26px;font-family:serif;margin:0 0 24px}h3{font-size:17px;margin:0 0 8px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.features p{font-size:14px;color:var(--mute);margin:0}.number{display:block;font-size:12px;letter-spacing:.1em;color:var(--red);margin-bottom:14px}.steps{padding-left:24px}.steps li{padding-left:6px;margin:12px 0}.note{border-left:3px solid var(--red);padding:4px 20px;color:var(--mute);font-size:14px}.formats{display:flex;gap:10px;flex-wrap:wrap}.formats span{padding:6px 14px;background:white;border:1px solid var(--line);font-size:13px}footer{font-size:12px;color:var(--mute);display:flex;justify-content:space-between;gap:20px;padding-bottom:40px}@media(max-width:760px){header,main,footer{padding-left:24px;padding-right:24px}.hero{padding-top:48px}.lead{font-size:22px}.features{grid-template-columns:1fr;gap:24px}footer{flex-direction:column}h1 small{display:block;margin-top:14px}}
+  </style>
+</head>
+<body>
+  <header><strong><span class="seal">画</span>画芯 Huaxin</strong><a href="/">← 雲溪工具箱</a></header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">LOCAL FIRST · CHINESE TYPESETTING</div>
+      <h1>画芯 <small>Huaxin</small></h1>
+      <p class="lead">把文字与图像，编排成一份自己的报纸。</p>
+      <p class="sub">在桌面浏览器中制作报纸、校刊、电子画册与图文手册。从模板开始，也可以自由编排。编辑、预览、自动备份与导出都在本机完成，无需注册账号。</p>
+      <div class="actions"><a class="button primary" href="/huaxin/">开始使用画芯 →</a><a class="button" href="https://github.com/YunxiQWQ/huaxin" target="_blank" rel="noopener noreferrer">GitHub 开源代码 ↗</a></div>
+    </section>
+    <section class="section">
+      <h2>从一页到整本</h2>
+      <div class="features">
+        <article><span class="number">01 / 编排</span><h3>多页模板与中文分栏</h3><p>使用报纸、校刊、画册与手册模板；调整页面、文字、图片和形状，设置栏数、行距、字距与段落缩进，检查文字溢出。</p></article>
+        <article><span class="number">02 / 字体</span><h3>网站字体与本机字体</h3><p>内置思源宋体、思源黑体、霞鹜文楷等字体。桌面 Chrome / Edge 经授权后，可读取本机已安装字体并用于排版与导出。</p></article>
+        <article><span class="number">03 / 保存</span><h3>本机备份与成品导出</h3><p>编辑内容自动保存在当前浏览器，定期保留本机历史版本。导出可选取文字的 PDF、PNG / JPEG 图片，或可继续编辑的工程文件。</p></article>
+      </div>
+    </section>
+    <section class="section">
+      <h2>开始制作</h2>
+      <ol class="steps">
+        <li>进入画芯，从模板中心选择版式，或创建空白作品。</li>
+        <li>选择文本框填写稿件，调整字体与分栏；从本机加入图片，按页面组织内容。</li>
+        <li>使用检查面板查看溢出、缺字和缺失图片，再通过本地预览确认排版。</li>
+        <li>导出 PDF 或图片用于阅读和打印，同时下载工程文件，留待下次继续编辑。</li>
+      </ol>
+      <div class="formats"><span>PDF · 文字可搜索和复制</span><span>PNG / JPEG · 页面图片</span><span>.bxproj · 可编辑工程</span></div>
+    </section>
+    <section class="section">
+      <h2>内容留在本机</h2>
+      <p>网站提供程序、模板和字体。你的稿件、图片、工程与本机字体不会上传，也没有在线发布或分享托管功能。程序和所用资源缓存后，可继续离线编辑和导出。</p>
+      <p class="note">自动备份属于当前浏览器与当前网站地址。清理浏览器数据会移除本机记录，长期保存或换设备时，请下载工程文件；工程不打包本机字体，其他设备需安装同名字体。</p>
+    </section>
+    <section class="section">
+      <h2>共同创作，开放使用</h2>
+      <p>由<strong>芸溪、Claude 和 Codex（OpenAI）</strong>共同创作。画芯源码采用 MIT 许可证，字体、照片与其他第三方资源保留各自的许可。</p>
+      <div class="actions"><a class="button primary" href="/huaxin/">进入画芯 →</a><a class="button" href="https://github.com/YunxiQWQ/huaxin/blob/main/LICENSE">阅读 MIT 许可证</a></div>
+    </section>
+  </main>
+  <footer><span>© 2026 芸溪 · 画芯 Huaxin</span><span>芸溪 × Claude × Codex</span></footer>
+</body>
+</html>
