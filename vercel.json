@@ -9,6 +9,7 @@
     { "source": "/huaxin", "destination": "/huaxin/", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/huaxin/", "destination": "/index.html" },
     { "source": "/huaxin/guide", "destination": "/guide.html" },
     { "source": "/huaxin/guide/", "destination": "/guide.html" },
     { "source": "/huaxin/:path*", "destination": "/:path*" }
