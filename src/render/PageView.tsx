@@ -239,10 +239,12 @@ export const ElementView = memo(function ElementView({
   el,
   editor,
   epoch: _epoch,
+  editing,
 }: {
   el: PageElement;
   editor?: boolean;
   epoch: number;
+  editing?: boolean;
 }) {
   const items = elementItems(el, { editor });
   return (
@@ -259,9 +261,7 @@ export const ElementView = memo(function ElementView({
         pointerEvents: editor && el.locked ? "none" : undefined,
       }}
     >
-      {items.map((it, i) => (
-        <Item key={i} it={it} />
-      ))}
+      {items.map((it, i) => (editing && it.t === "text" ? null : <Item key={i} it={it} />))}
     </div>
   );
 });
@@ -271,11 +271,13 @@ export const PageContent = memo(function PageContent({
   width,
   height,
   editor,
+  editingId,
 }: {
   page: Page;
   width: number;
   height: number;
   editor?: boolean;
+  editingId?: string | null;
 }) {
   const epoch = useFontEpoch();
   return (
@@ -292,7 +294,15 @@ export const PageContent = memo(function PageContent({
       }}
     >
       {page.elements.map((el) =>
-        el.hidden ? null : <ElementView key={el.id} el={el} editor={editor} epoch={epoch} />,
+        el.hidden ? null : (
+          <ElementView
+            key={el.id}
+            el={el}
+            editor={editor}
+            epoch={epoch}
+            editing={el.id === editingId}
+          />
+        ),
       )}
     </div>
   );

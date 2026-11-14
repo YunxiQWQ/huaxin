@@ -555,7 +555,7 @@ export function Canvas() {
                 transformOrigin: "0 0",
               }}
             >
-              <PageContent page={page} width={W} height={H} editor />
+              <PageContent page={page} width={W} height={H} editor editingId={s.editingId} />
             </div>
           </div>
           {/* overlay */}
@@ -689,7 +689,7 @@ export function Canvas() {
                 }}
               />
             )}
-            {editing && <TextEditor el={editing} zoom={zoom} />}
+            {editing && <TextEditor key={editing.id} el={editing} zoom={zoom} />}
           </div>
         </div>
       </div>

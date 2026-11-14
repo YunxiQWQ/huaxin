@@ -20,8 +20,8 @@ const cdp = await ctx.newCDPSession(page);
 await cdp.send("Input.imeSetComposition", { text: "zhong", selectionStart: 5, selectionEnd: 5 });
 await sleep(200);
 log(
-  "pinyin visible in textarea:",
-  (await page.evaluate(() => document.activeElement.value)).endsWith("zhong"),
+  "pinyin visible at canvas position:",
+  (await page.evaluate(() => document.activeElement.textContent)).endsWith("zhong"),
 );
 log("pinyin leaked into document:", (await elText(page, id)).includes("zhong"));
 await page.keyboard.press("Delete").catch(() => {});

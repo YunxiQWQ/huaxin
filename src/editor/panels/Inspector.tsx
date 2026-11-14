@@ -400,7 +400,7 @@ function TextInspector({ el }: { el: TextElement }) {
         <ContentEditor el={el} innerRef={contentRef} />
         <div className="mt-1.5 flex gap-1.5">
           <Button size="sm" variant="subtle" onClick={() => setUI({ editingId: el.id })}>
-            画布编辑
+            原位编辑
           </Button>
           <Button
             size="sm"

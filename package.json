@@ -29,6 +29,7 @@
     "e2e": "node tests/e2e/sampleA.mjs && node tests/e2e/sampleB.mjs && node tests/e2e/ime.mjs && node tests/e2e/robustness.mjs",
     "serve:dist": "node tests/e2e/serve.mjs dist 4173",
     "e2e:offline": "node tests/e2e/offline.mjs",
+    "e2e:inline": "node tests/e2e/inline-text.mjs",
     "e2e:templates": "node tests/e2e/templates.mjs",
     "e2e:fonts": "node tests/e2e/fonts.mjs",
     "e2e:font-cache": "node tests/e2e/font-cache.mjs",

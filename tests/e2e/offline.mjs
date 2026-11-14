@@ -2,6 +2,7 @@
 // editing, local saving and PDF export keep working without network.
 import { open, OUT, sleep, log } from "./lib.mjs";
 import { inspectPdf, readZip } from "./files.mjs";
+import assert from "node:assert/strict";
 const URL = process.env.BX_URL || "http://localhost:4173/";
 const { ctx, page, errors, external } = await open({ profile: `${OUT}/profile-offline` });
 await page.goto(URL);
@@ -44,7 +45,16 @@ await sleep(300);
 await page.getByRole("button", { name: /^主标题/ }).click();
 await sleep(300);
 const ta = page.locator("aside textarea").first();
-await ta.fill("断网后新增的标题");
+await ta.fill("断网后待编辑标题");
+await page.locator("[data-el]").filter({ hasText: "断网后待编辑标题" }).dblclick();
+const inline = page.getByRole("textbox", { name: "画布文字编辑" });
+await inline.waitFor();
+await page.keyboard.press("Control+a");
+await page.keyboard.insertText("断网后新增的标题");
+assert.equal(await ta.inputValue(), "断网后新增的标题", "offline canvas changes update the document immediately");
+await page.keyboard.press("Escape");
+assert.equal(await inline.count(), 0);
+log("offline inline canvas edit: passed");
 await sleep(2500);
 log("save status offline:", await page.locator('header button[title="本机保存状态"]').innerText());
 await page.reload();

@@ -75,6 +75,27 @@
   -webkit-user-drag: none;
 }
 
+.bx-inline-editor,
+.bx-inline-editor span {
+  white-space: pre;
+  font-kerning: none;
+  font-variant-ligatures: none;
+  font-feature-settings:
+    "kern" 0,
+    "liga" 0,
+    "palt" 0,
+    "halt" 0,
+    "chws" 0;
+  text-spacing-trim: space-all;
+  text-autospace: no-autospace;
+  font-synthesis: weight style;
+  user-select: text;
+}
+.bx-inline-editor ::selection {
+  background: #2b59c3;
+  color: white;
+}
+
 .bx-scroll::-webkit-scrollbar {
   width: 10px;
   height: 10px;
